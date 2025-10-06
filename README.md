@@ -28,3 +28,5 @@ ollup-plugin-serve -D
 ```
 
 ## 创建`rollup`配置文件
+
+## `http://localhost:3000/public/index.html`
