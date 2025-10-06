@@ -40,14 +40,17 @@ console.log(`%c【${sum(1, 2)}】`, 'background-color: skyblue; font-size: 2rem'
 /* object */
 
 let obj: { name: string; age: number } = { name: 'lve', age: 20 }
+
 interface ObjProps {
   name: string
   age: number
 }
+
 let obj2: ObjProps = {
   name: 'lve',
   age: 20,
 }
+
 // union types / intersection types
 let strOrNum: string | number = '1'
 
@@ -75,5 +78,47 @@ let poorWoman: Woman = {
   wealthy: false,
   waste: '勤俭持家',
 }
+
+type ISum = (x: string, y: string) => string
+let sum2: ISum = (a: string, b: string): string => a + b
+console.log(
+  `%c【${sum2('a', 'b')}】`,
+  'background-color: skyblue; font-size: 2rem',
+)
+
+type ICallback = (a: number, b: string, c: boolean) => string // 如果这里是void，代表的是不关心返回值的类型，而不是不返回任何东西
+/* 
+
+类似于 Array.prototype.forEach
+
+let r = [1,2,3].forEach(item => item)
+r:void
+
+*/
+function fn(cb: ICallback) {}
+fn((x, y, z) => '')
+
+// 可选参数，?，可选参数必须放在最后面
+function f(a: string, b?: number): void {}
+
+// 剩余运算符
+let total = (...rest: number[]): number => {
+  return rest.reduce((memo, current) => ((memo += current), memo))
+}
+
+// 推导对象类型和key类型，keyof只能取对象的key类型，不能直接keyof p，且this必须放在函数的第一个参数，固定的
+let p = {
+  name: 'lve',
+  age: 21,
+}
+
+function getValue(this: typeof p, key: keyof typeof p) {
+  return this[key]
+}
+
+console.log(
+  `%c【${getValue.call(p, 'name')}】`,
+  'background-color: skyblue; font-size: 2rem',
+)
 
 export {}
