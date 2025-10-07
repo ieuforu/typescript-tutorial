@@ -158,7 +158,7 @@ class Cat extends Animal {
 }
 const cat = new Cat('狸花猫', '黑色')
 // console.log(cat)
-cat.eat('猫粮')
+// cat.eat('猫粮')
 
 /* 
 super 原型方法指向实例，构造函数和静态方法中指向父类
@@ -174,7 +174,7 @@ class Singleton {
 }
 const i1 = Singleton.getInstance()
 const i2 = Singleton.getInstance()
-console.log(i1 === i2)
+// console.log(i1 === i2)
 
 // 抽象类，不能被实例化
 abstract class Person {
@@ -185,4 +185,73 @@ abstract class Person {
 class Student extends Person {
   eat(): void {}
 }
+
+// type IFullname = {
+//   firstname: string
+//   lastname: string
+// }
+
+interface IFullname {
+  firstname: string
+  lastname: string
+}
+
+let r = ({ firstname, lastname }: IFullname): string => {
+  return firstname + lastname
+}
+
+// console.log(
+//   `%c【${r({ firstname: 'isla', lastname: 'cole' })}】`,
+//   'background-color: skyblue; font-size: 2rem',
+// )
+
+// type vs interface
+/* 
+  interface 一般来表示对象的结构
+  type 一般用来组合复杂类型等
+  type 不能被扩展，interface 可以
+*/
+
+interface IPerson {}
+interface IAnimal {}
+
+// unknown 必须要类型检查/推导才能使用，被认为是安全的any
+type unkownAndString = unknown & string // string
+
+interface Brid {
+  name: '鸟'
+}
+
+interface Sky {
+  name: '天空'
+}
+
+interface Fish {
+  name: '鱼'
+}
+
+interface Water {
+  name: '水'
+}
+
+type Conditional<T> = T extends Brid ? Sky : Water
+
+type r1 = Conditional<Brid> // Sky
+type r2 = Conditional<Fish> // Water
+
+// 通过条件类型，ts提供了一些内置类型
+// 1. Extract，T U 求T U 的交集
+// type Extract<T, U> = T extends U ? T : never;
+type r3 = Extract<1 | 2 | 3, 1 | 2 | 4>
+
+// 2. Exclude，T U 从T中排除掉U
+// type Exclude<T, U> = T extends U ? never : T;
+type r4 = Exclude<1 | 2, 2>
+
+// 3. NonNullable，排除掉null
+// type NonNullable<T> = T & {};
+type r5 = NonNullable<1 | 2 | null>
+
+type r6 = null & {}
+
 export {}
